@@ -1,16 +1,18 @@
-$filter-percentages: 0 5 10 15 20 25 30 35 40 45 50 55 60 65 70 75 80 85 90 95 100;
+$filter-percentages: 5 10 15 20 25 30 35 40 45 50 55 60 65 70 75 80 85 90 95 100;
+$filter-degrees: 15 30 45 60 75 90 105 120 135 150 165 180 195 210 225 240 255 270 285 300 315 330 345 360;
+
 $simple-filters: grayscale sepia saturate hue-rotate invert opacity brightness contrast blur tint;
 
 $grayscaleMultiplier:  .01;
 $sepiaMultiplier:      .01;
 $saturateMultiplier:   .01;
-$hueRotateMultiplier:  .01;
 $invertMultiplier:     .01;
 $opacityMultiplier:    .01;
 $brightnessMultiplier: .01;
 $contrastMultiplier:   .01;
 $blurMultiplier:       .01;
 $tintMutiplier:        .01;
+$hueRotateMultiplier:  1deg;
 
 
 @mixin filter ($filterType, $filterValue) {
@@ -19,8 +21,9 @@ $tintMutiplier:        .01;
     -moz-filter: #{$filterType}(#{$filterValue});
 }
 
-@each $size in $filter-percentages {
-    @each $filter in $simple-filters {
+@each $filter in $simple-filters {
+
+    @each $size in $filter-percentages {
         .filter-#{$filter}-#{$size},
         .filter-#{$filter}-#{$size}-hover:hover {
             @if $filter == grayscale {
@@ -31,9 +34,6 @@ $tintMutiplier:        .01;
                 @include filter($filter, $value);
             } @else if $filter == saturate{
                 $value: ($size * $saturateMultiplier);
-                @include filter($filter, $value);
-            } @else if $filter == hue-rotate{
-                $value: ($size * $hueRotateMultiplier);
                 @include filter($filter, $value);
             } @else if $filter == invert {
                 $value: ($size * $invertMultiplier);
@@ -52,6 +52,16 @@ $tintMutiplier:        .01;
                 @include filter($filter, $value);
             } @else if $filter == tint {
                 $value: ($size * $tintMutiplier);
+                @include filter($filter, $value);
+            }
+        }
+    }
+
+    @each $size in $filter-degrees {
+        .filter-#{$filter}-#{$size},
+        .filter-#{$filter}-#{$size}-hover:hover {
+            @if $filter == hue-rotate{
+                $value: ($size * $hueRotateMultiplier);
                 @include filter($filter, $value);
             }
         }
