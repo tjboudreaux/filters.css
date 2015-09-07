@@ -1,0 +1,60 @@
+$filter-percentages: 0 5 10 15 20 25 30 35 40 45 50 55 60 65 70 75 80 85 90 95 100;
+$simple-filters: grayscale sepia saturate hue-rotate invert opacity brightness contrast blur tint;
+
+$grayscaleMultiplier:  .01;
+$sepiaMultiplier:      .01;
+$saturateMultiplier:   .01;
+$hueRotateMultiplier:  .01;
+$invertMultiplier:     .01;
+$opacityMultiplier:    .01;
+$brightnessMultiplier: .01;
+$contrastMultiplier:   .01;
+$blurMultiplier:       .01;
+$tintMutiplier:        .01;
+
+
+@mixin filter ($filterType, $filterValue) {
+    filter: #{$filterType}(#{$filterValue});
+    -webkit-filter: #{$filterType}(#{$filterValue});
+    -moz-filter: #{$filterType}(#{$filterValue});
+}
+
+@each $size in $filter-percentages {
+    @each $filter in $simple-filters {
+        .filter-#{$filter}-#{$size},
+        .filter-#{$filter}-#{$size}-hover:hover {
+            @if $filter == grayscale {
+                $value: ($size * $grayscaleMultiplier);
+                @include filter($filter, $value);
+            } @else if $filter == sepia {
+                $value: ($size * $sepiaMultiplier);
+                @include filter($filter, $value);
+            } @else if $filter == saturate{
+                $value: ($size * $saturateMultiplier);
+                @include filter($filter, $value);
+            } @else if $filter == hue-rotate{
+                $value: ($size * $hueRotateMultiplier);
+                @include filter($filter, $value);
+            } @else if $filter == invert {
+                $value: ($size * $invertMultiplier);
+                @include filter($filter, $value);
+            } @else if $filter == opacity{
+                $value: ($size * $opacityMultiplier);
+                @include filter($filter, $value);
+            } @else if $filter == brightness {
+                $value: ($size * $brightnessMultiplier);
+                @include filter($filter, $value);
+            } @else if $filter == contrast {
+                $value: ($size * $contrastMultiplier);
+                @include filter($filter, $value);
+            } @else if $filter == blur {
+                $value: ($size * $blurMultiplier);
+                @include filter($filter, $value);
+            } @else if $filter == tint {
+                $value: ($size * $tintMutiplier);
+                @include filter($filter, $value);
+            }
+        }
+    }
+}
+
